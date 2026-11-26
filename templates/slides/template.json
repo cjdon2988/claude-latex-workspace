@@ -1,0 +1,16 @@
+{
+  "name": "slides",
+  "label": "投影片型",
+  "description": "依素材類型(course/meetings/paper/thesis)組織的投影片與論文解讀",
+  "pattern": "Content/{course|meetings|paper|thesis}/{item}/",
+  "compiler": "xelatex",
+  "main": "note-template/main.tex",
+  "placeholders": {
+    "__SUBJECT__": "科目英文資料夾名(小寫加底線,例如 linear_algebra),同時替換資料夾名與路徑",
+    "__TITLE__": "投影片標題",
+    "__AUTHOR__": "作者",
+    "__DATE__": "年份學期,例如 2026 秋"
+  },
+  "exclude": ["template.json", "README.md"],
+  "source": "Template_Slides, copied 2026-10-12"
+}

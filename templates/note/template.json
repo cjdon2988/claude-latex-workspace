@@ -1,0 +1,15 @@
+{
+  "name": "note",
+  "label": "筆記型",
+  "description": "依科目再依類型(note/hw/quiz/exam/extra_hw)組織的課程筆記",
+  "pattern": "content/{subject}/{type}/{item}/",
+  "compiler": "xelatex",
+  "main": "note-template/main.tex",
+  "placeholders": {
+    "__SUBJECT__": "科目英文資料夾名(小寫加底線,例如 linear_algebra),同時替換檔名與內容",
+    "__TITLE__": "文件標題",
+    "__AUTHOR__": "作者與學號"
+  },
+  "exclude": ["template.json", "README.md"],
+  "source": "Template_Note, rebuilt 2026-10-12 (kelong-cjk fonts, skeleton content)"
+}

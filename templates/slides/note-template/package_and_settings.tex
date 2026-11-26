@@ -1,0 +1,252 @@
+% ╔══════════════════════════════════════════════════════════════╗
+% ║          package_and_settings.tex — Template_Slides          ║
+% ║  Beamer 簡報模板的套件載入與全域設定                          ║
+% ║  （本檔不需要每次改，切換文件只改 main.tex 的兩行 \input）    ║
+% ╚══════════════════════════════════════════════════════════════╝
+
+
+% ── 1. 色彩主題選擇 ──────────────────────────────────────────────
+%
+%  在這裡更改一個字，整份簡報的配色就會跟著換。
+%  可選值：green（預設，深青綠色調）、blue（深藍色調）、purple（紫色調）
+%
+\def\slidetheme{orange}   % ← 改這裡切換色調（用 \def，不用 \newcommand）
+
+
+% ── 依選擇套用對應色系（\ifx 比較展開後字串）────────────────────
+%  注意：比較用的 \themeoptiongreen / \themeoptionblue 名稱不含 @，
+%        避免在 .tex 檔中 @ 被當成非字母而解析錯誤。
+\def\themeoptiongreen{green}
+\def\themeoptionblue{blue}
+\def\themeoptionorange{orange}
+
+\ifx\slidetheme\themeoptiongreen
+  % ── 綠色系（預設）────────────────────────────────────────────
+  \definecolor{darktitle}   {RGB}{30, 110,  70}  % 標題列底色：深綠
+  \definecolor{accentcolor} {RGB}{30, 110,  70}  % 強調色：深綠
+  \definecolor{bodytextcolor}{RGB}{24,  88,  56}  % 正文字色：深綠（同解答色）
+  \definecolor{answerblue}  {RGB}{24,  88,  56}  % 解答字色：深綠
+  \definecolor{alertcolor}  {RGB}{200,  0,   0}  % 警示色：紅
+  \definecolor{examplefill} {RGB}{232, 246, 236} % problembox 底色：淡綠
+  \definecolor{exampleline} {RGB}{60,  140,  80} % problembox 框線：中綠
+  \definecolor{solutionfill}{RGB}{240, 248, 243} % 投影片底色
+\else\ifx\slidetheme\themeoptionblue
+  % ── 藍色系 ───────────────────────────────────────────────────
+  \definecolor{darktitle}   {RGB}{25,  55, 120}  % 標題列底色：深藍
+  \definecolor{accentcolor} {RGB}{25,  55, 120}  % 強調色：亮藍
+  \definecolor{bodytextcolor}{RGB}{20,  44,  96}  % 正文字色：深藍（同解答色）
+  \definecolor{answerblue}  {RGB}{20,  44,  96}  % 解答字色：深藍
+  \definecolor{alertcolor}  {RGB}{200,  0,   0}  % 警示色：紅
+  \definecolor{examplefill} {RGB}{230, 238, 252} % problembox 底色：淡藍
+  \definecolor{exampleline} {RGB}{50,  110, 200} % problembox 框線：亮藍
+  \definecolor{solutionfill}{RGB}{249, 251, 254} % 投影片底色
+\else\ifx\slidetheme\themeoptionorange
+  % ── 橘色系（UT Austin Burnt Orange）──────────────────────────
+  \definecolor{darktitle}   {RGB}{191,  87,   0}  % 標題列底色：Burnt Orange
+  \definecolor{accentcolor} {RGB}{191,  87,   0}  % 強調色：Burnt Orange
+  \definecolor{bodytextcolor}{RGB}{153,  70,   0}  % 正文字色：深橘（同解答色）
+  \definecolor{answerblue}  {RGB}{153,  70,   0}  % 解答字色：深橘
+  \definecolor{alertcolor}  {RGB}{200,   0,   0}  % 警示色：紅
+  \definecolor{examplefill} {RGB}{253, 240, 228} % problembox 底色：淡橘
+  \definecolor{exampleline} {RGB}{191,  87,   0} % problembox 框線：Burnt Orange
+  \definecolor{solutionfill}{RGB}{251, 244, 236} % 投影片底色
+\else
+  % ── 紫色系 ───────────────────────────────────────────────────
+  \definecolor{darktitle}   {RGB}{62,  30, 105}  % 標題列底色：深紫
+  \definecolor{accentcolor} {RGB}{62,  30, 105}  % 強調色：深紫
+  \definecolor{bodytextcolor}{RGB}{50,  24,  84}  % 正文字色：深紫（同解答色）
+  \definecolor{answerblue}  {RGB}{50,  24,  84}  % 解答字色：深紫
+  \definecolor{alertcolor}  {RGB}{200,   0,   0} % 警示色：紅
+  \definecolor{examplefill} {RGB}{240, 234, 250} % problembox 底色：淡紫
+  \definecolor{exampleline} {RGB}{62,  30, 105}  % problembox 框線：深紫
+  \definecolor{solutionfill}{RGB}{244, 240, 251} % 投影片底色
+\fi\fi\fi
+
+% 輔助顏色（跨主題共用）
+\colorlet{lightbg}{solutionfill}  % 投影片底色
+\definecolor{mygreen    }{RGB}{0,  153,  76}  % \textcolor{mygreen}{} 用
+\definecolor{myblue     }{RGB}{0,  102, 204}  % \textcolor{myblue}{}  用
+
+
+% ── 2. 字型設定（XeLaTeX 必用）─────────────────────────────────
+\usepackage{amsmath}                % 數學公式核心（需在 unicode-math 之前）
+\usepackage{mathtools}
+\usepackage{amssymb}
+\PassOptionsToPackage{no-math}{fontspec}  % 避免 fontspec 覆蓋數學字型
+\usepackage{unicode-math}           % 數學字型（需在 fontspec 之前）
+\setmathfont[
+  Path     = ./fonts/,
+  BoldFont = {KpMath-Bold.otf}
+]{KpMath-Regular.otf}
+
+\usepackage{xeCJK}                  % 中文字型支援
+
+% 西文主字型：LinLibertine（正文），Kp Roman（粗體/斜體）
+\setmainfont[
+  Path            = ./fonts/,
+  Numbers         = OldStyle,
+  ItalicFont      = {KpRoman-Italic.otf},
+  BoldFont        = {KpRoman-Bold.otf},
+  BoldItalicFont  = {KpRoman-BoldItalic.otf}
+]{LinLibertine_R.otf}
+
+% 中文主字型：圓體
+\setCJKmainfont[Path=./fonts/, BoldFont={cwTeXQMing-Medium.ttf}, BoldFeatures={FakeBold=1.5}]{cwTeXQMing-Medium.ttf}
+\setCJKfamilyfont{round}[Path=./fonts/, BoldFont={cwTeXQYuan-Medium.ttf}, BoldFeatures={FakeBold=1.5}]{cwTeXQYuan-Medium.ttf}
+
+% 中文額外字族與對應指令
+\setCJKfamilyfont{kai} [Path=./fonts/]{cwTeXQKai-Medium.ttf}
+\newcommand{\kai} [1]{{\CJKfamily{kai}#1}}   % 楷體
+
+\setCJKfamilyfont{ming}[Path=./fonts/]{cwTeXQMing-Medium.ttf}
+\newcommand{\ming}[1]{{\CJKfamily{ming}#1}}  % 明體（\yuan 同效果）
+\newcommand{\yuan}[1]{{\CJKfamily{ming}#1}}  % 舊名保留
+
+\setCJKfamilyfont{hei} [Path=./fonts/]{cwTeXQHei-Bold.ttf}
+\newcommand{\hei} [1]{{\CJKfamily{hei}#1}}   % 黑體
+\newcommand{\round}[1]{{\CJKfamily{round}#1}} % 圓體
+
+
+% ── 3. 數學與科學套件 ────────────────────────────────────────────
+\usepackage{bm}                     % \bm{} 粗斜體向量符號
+\DeclareMathOperator{\Var}{Var}     % 自訂算子：Var
+\DeclareMathOperator{\Cov}{Cov}     % 自訂算子：Cov
+\DeclareMathOperator{\E}{\mathbb{E}} % 自訂算子：期望值
+
+
+% ── 4. 排版與工具套件 ────────────────────────────────────────────
+\usepackage{setspace}               % 行距控制
+\onehalfspacing                     % 1.5 倍行距
+
+\usepackage{booktabs}               % 表格專用橫線（\toprule \midrule \bottomrule）
+\usepackage{graphicx}               % 插圖（\includegraphics）
+
+\usepackage{tikz}                   % 向量圖形繪製
+\usetikzlibrary{shapes, arrows, positioning}  % TikZ 流程圖元件
+
+\usepackage{tcolorbox}              % 自訂色彩框（用於 problembox 等環境）
+\tcbuselibrary{skins, breakable}    % breakable：允許框跨多頁（Beamer 需用 allowframebreaks）
+
+\usepackage{hyperref}               % 超連結
+\hypersetup{
+  colorlinks = true,
+  linkcolor  = black,
+  filecolor  = magenta,
+  urlcolor   = accentcolor,         % URL 顏色跟隨主題
+}
+\urlstyle{same}
+
+
+% ── 5. Beamer 主題設定 ───────────────────────────────────────────
+\usetheme{Boadilla}                 % 主題：Boadilla（簡約風格）
+\setbeamerfont{title}{series=\mdseries, family=\CJKfamily{round}}  % 封面標題不用粗體
+\setbeamerfont{author}{family=\CJKfamily{round}}
+\setbeamerfont{date}{family=\CJKfamily{round}}
+\setbeamerfont{frametitle}{series=\bfseries, family=\CJKfamily{round}}  % frame 標題加粗
+
+% 套用色系到 Beamer 各元件
+%  ► frametitle 底色 = darktitle（深色），文字白色
+%  ► structure / item / section in toc 使用 accentcolor，跟隨主題變色
+%    green → 深綠   blue → 深藍   purple → 淡薰衣草紫
+%  ► 正文 (normal text) 維持黑色，確保可讀性
+\setbeamercolor{frametitle}            {bg=darktitle,    fg=white}
+\setbeamercolor{normal text}           {bg=lightbg,      fg=bodytextcolor}
+\setbeamercolor{item}                  {fg=accentcolor}
+\setbeamercolor{title}                 {fg=bodytextcolor}
+\setbeamercolor{structure}             {fg=accentcolor}
+\setbeamercolor{section in toc}        {fg=accentcolor}
+\setbeamercolor{alerted text}          {fg=alertcolor}
+
+% 項目符號樣式
+\setbeamertemplate{itemize items}[circle]
+
+% 關閉右下角 Beamer 預設導航圖示（通常用不到）
+\beamertemplatenavigationsymbolsempty
+
+
+% ── 6. 頁尾（Footer）設定 ────────────────────────────────────────
+%
+%  頁尾三欄：[目前章節] [簡報標題] [頁碼 / 總頁數]
+%  頁尾底色配合主題自動更換。
+%
+\setbeamercolor{section in head/foot}     {bg=darktitle!10, fg=bodytextcolor}
+\setbeamercolor{title in head/foot}       {bg=darktitle!30, fg=bodytextcolor}
+\setbeamerfont{section in head/foot}      {family=\CJKfamily{round}}
+\setbeamerfont{title in head/foot}        {family=\CJKfamily{round}}
+\setbeamercolor{author in head/foot}      {bg=darktitle,    fg=white}
+\setbeamercolor{page number in head/foot} {bg=darktitle,    fg=lightbg}
+\setbeamercolor{subsection in head/foot}  {bg=gray!20,      fg=white}
+\setbeamercolor{date in head/foot}        {bg=gray!10,      fg=black}
+
+\setbeamertemplate{footline}{%
+  \leavevmode%
+  \hbox{%
+    \begin{beamercolorbox}[wd=.33\paperwidth, ht=2.5ex, dp=1ex, center]
+      {section in head/foot}%
+      \insertsection
+    \end{beamercolorbox}%
+    \begin{beamercolorbox}[wd=.34\paperwidth, ht=2.5ex, dp=1ex, center]
+      {title in head/foot}%
+      \insertshorttitle
+    \end{beamercolorbox}%
+    \begin{beamercolorbox}[wd=.33\paperwidth, ht=2.5ex, dp=1ex, right]
+      {page number in head/foot}%
+      \insertframenumber{} / \inserttotalframenumber\hspace*{2ex}
+    \end{beamercolorbox}%
+  }%
+  \vskip0pt%
+}
+
+
+% ── 7. 自訂環境 ──────────────────────────────────────────────────
+%
+%  Beamer 環境說明：
+%  ┌─────────────────────────────────────────────────────┐
+%  │  一個 frame 對應一張投影片。如果內容超過一頁，         │
+%  │  請在 \begin{frame} 加上 [allowframebreaks] 選項：    │
+%  │    \begin{frame}[allowframebreaks]{標題}              │
+%  │  這樣 Beamer 會自動把超出的內容延伸到下一張投影片。   │
+%  └─────────────────────────────────────────────────────┘
+
+% ── problembox：題目框（有色框線，底色淡）──────────────────────
+%
+%  用法：\begin{problembox}{1.1}{題目名稱} ... \end{problembox}
+%
+%  ► 若題目很長、需要跨多頁，請在外層 frame 加 [allowframebreaks]
+%
+\newtcolorbox{problembox}[2]{
+  enhanced,
+  breakable,                          % 允許跨頁（需 frame [allowframebreaks]）
+  colback  = white,                   % 框內白底
+  colframe = exampleline,             % 框線色（隨主題變色）
+  fonttitle= \bfseries,
+  title    = {\round{題目 #1 \hspace{0.5em} #2}},
+  before upper = {},
+}
+
+% ── answer：解答（藍字，不加框）─────────────────────────────────
+%
+%  用法：\begin{answer} ... \end{answer}
+%
+\newenvironment{answer}{\par\leftskip=1.5em\color{answerblue}}{\par}
+
+% ── highlightbox：一般強調框（可自訂標題）──────────────────────
+%
+%  用法：\begin{highlightbox}{框標題} ... \end{highlightbox}
+%
+\newtcolorbox{highlightbox}[1]{
+  enhanced,
+  breakable,
+  colback  = white,
+  colframe = accentcolor,
+  fonttitle = \bfseries,
+  title    = {\round{#1}},
+}
+
+% ── Beamer 內建 block 的顏色也跟著主題走 ───────────────────────
+\setbeamercolor{block title}         {bg=darktitle,   fg=white}
+\setbeamercolor{block body}          {bg=examplefill, fg=black}
+\setbeamercolor{block title example} {bg=accentcolor, fg=white}
+\setbeamercolor{block body example}  {bg=examplefill, fg=black}
+\setbeamercolor{block title alerted} {bg=alertcolor,  fg=white}
+\setbeamercolor{block body alerted}  {bg=examplefill, fg=black}

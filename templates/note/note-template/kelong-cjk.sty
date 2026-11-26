@@ -1,0 +1,58 @@
+% kelong-cjk.sty
+% Shared CJK + Latin + math font setup, extracted from Template_Note /
+% Template_Slides (package_and_settings.tex, section 9). XeLaTeX only.
+%
+% Usage: copy this file and fonts/ into a project's repo root, then in the
+% preamble (compiled with XeLaTeX):
+%   \usepackage{kelong-cjk}
+%
+% Provides:
+%   - CJK main font: cwTeXQMing (bold auto-switches to cwTeXQHei via \textbf)
+%   - Latin main font: Linux Libertine, bold/italic via KpRoman
+%   - Math font: KpMath (matches the Latin font's style)
+%   - \kai{...} \yuan{...} \hei{...}  -- explicit CJK family switches
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{kelong-cjk}[2026/08/19 Kelong's CJK/Latin/math font setup]
+
+\RequirePackage{amsmath} % unicode-math must load after amsmath
+\RequirePackage{mathtools}
+\RequirePackage{amssymb}
+\PassOptionsToPackage{no-math}{fontspec}
+\RequirePackage{unicode-math}
+\RequirePackage{xeCJK}
+
+% Latin main font: Linux Libertine, KpRoman for bold/italic
+\setmainfont[
+    Path           = ./fonts/,
+    Numbers        = OldStyle,
+    ItalicFont     = {KpRoman-Italic.otf},
+    BoldFont       = {KpRoman-Bold.otf},
+    BoldItalicFont = {KpRoman-BoldItalic.otf}
+]{LinLibertine_R.otf}
+
+% CJK main font: Ming (body), auto-switches to Hei on \textbf
+\defaultCJKfontfeatures{Scale=MatchLowercase}
+\setCJKmainfont[
+    Path         = ./fonts/,
+    Numbers      = OldStyle,
+    BoldFont     = {cwTeXQHei-Bold.ttf},
+    BoldFeatures = {Scale=1.03}
+]{cwTeXQMing-Medium.ttf}
+
+% Additional CJK families, invoked explicitly
+\setCJKfamilyfont{kai} [Path=./fonts/]{cwTeXQKai-Medium.ttf}
+\setCJKfamilyfont{yuan}[Path=./fonts/]{cwTeXQYuan-Medium.ttf}
+\setCJKfamilyfont{hei} [Path=./fonts/]{cwTeXQHei-Bold.ttf}
+
+\newcommand{\kai} [1]{{\CJKfamily{kai}#1}}
+\newcommand{\yuan}[1]{{\CJKfamily{yuan}#1}}
+\newcommand{\hei} [1]{{\CJKfamily{hei}#1}}
+
+% Math font: KpMath, matches the Latin body style
+\setmathfont[
+    Path     = ./fonts/,
+    BoldFont = {KpMath-Bold.otf}
+]{KpMath-Regular.otf}
+
+\endinput

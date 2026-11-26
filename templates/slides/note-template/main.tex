@@ -1,0 +1,75 @@
+\documentclass[aspectratio=43]{beamer}
+% aspectratio=169 ：16:9 寬螢幕（推薦）；改為 43 可換回 4:3
+
+% ── 載入所有套件與全域設定 ──────────────────────────────────
+\input{note-template/package_and_settings}
+
+
+% ============================================================
+%  【如何切換文件】
+%
+%  每份文件對應 Content/ 下的一個資料夾，
+%  資料夾內固定包含：
+%
+%    0. 標題與作者.tex  ← 定義 \title / \author / \date
+%    part0.tex          ← 標題頁 + 目錄
+%    part0_all.tex      ← 依序 \input 所有 part 檔的索引
+%    part1.tex, ...     ← 實際投影片內容（每個 part 為一組 frames）
+%
+% ── 資料夾結構 ────────────────────────────────────────────
+%
+%  Content/
+%  ├── course/             ← 課堂講義
+%  │   ├── {科目1}/
+%  │   │   ├── note/note_1/      ← 上課投影片
+%  │   │   ├── hw/hw_1/          ← 作業講解
+%  │   │   ├── quiz/quiz_1/      ← 小考
+%  │   │   └── exam/midterm|final/
+%  │   └── {科目2}/   （結構同上）
+%  │
+%  ├── paper/              ← 論文報告（讀書會、課堂）
+%  │   ├── {作者_年份1}/
+%  │   └── {作者_年份2}/
+%  │
+%  ├── thesis/             ← 論文口試簡報
+%  │   └── {論文口試}/
+%  │
+%  └── meetings/           ← 會議報告（按報告對象 → 日期）
+%      └── {對象}/
+%          └── {YYYYMMDD}/   ← 日期格式：YYYYMMDD
+%
+%  圖片放在各文件的 figures/ 子資料夾，引用時使用完整路徑：
+%    \includegraphics[width=0.8\textwidth]
+%      {Content/meetings/{對象}/{YYYYMMDD}/figures/my_fig}
+%
+% ── 切換步驟（只需改以下兩行）────────────────────────────
+%
+%  步驟一：將下方 \input 換成目標文件的「0. 標題與作者.tex」路徑
+%  步驟二：將 \begin{document} 內的 \input 換成目標的「part0_all.tex」路徑
+%
+%  範例 A ── 會議報告（{對象}，{日期}）：
+%    \input{Content/meetings/{對象}/{YYYYMMDD}/0. 標題與作者}
+%    \input{Content/meetings/{對象}/{YYYYMMDD}/part0_all}
+%
+%  範例 B ── 論文報告（Babii et al. 2022）：
+%    \input{Content/paper/{作者_年份1}/0. 標題與作者}
+%    \input{Content/paper/{作者_年份1}/part0_all}
+%
+%  範例 C ── 碩士論文口試：
+%    \input{Content/thesis/{論文口試}/0. 標題與作者}
+%    \input{Content/thesis/{論文口試}/part0_all}
+%
+%  範例 D ── {科目}第 1 章講義：
+%    \input{Content/course/{科目1}/note/note_1/0. 標題與作者}
+%    \input{Content/course/{科目1}/note/note_1/part0_all}
+% ============================================================
+
+% ── 步驟一：修改此行以載入標題與作者資訊 ─────────────────
+\input{Content/course/__SUBJECT__/note/note_1/0. 標題與作者}
+
+\begin{document}
+
+% ── 步驟二：修改此行以載入文件內容 ──────────────────────
+\input{Content/course/__SUBJECT__/note/note_1/part0_all}
+
+\end{document}

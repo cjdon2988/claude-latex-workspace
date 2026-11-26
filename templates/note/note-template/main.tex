@@ -1,0 +1,34 @@
+% !TEX program = xelatex
+\documentclass[12pt, a4paper, AutoFakeBold, AutoFakeSlant, twoside]{article}
+
+% kelong-cjk 必須最先載入，早於其他套件（見 kelong-cv/cv.tex 註解）
+\usepackage{kelong-cjk}
+% AutoFakeBold  ：為不含粗體字重的字型自動產生偽粗體
+% AutoFakeSlant ：為不含斜體字重的字型自動產生偽斜體
+% twoside       ：雙面排版（奇偶頁的邊距與頁首配置不同）
+
+% ── 載入所有套件與全域設定 ──────────────────────────────────
+\input{note-template/package_and_settings}
+
+
+% ============================================================
+%  【結構】
+%  content/{科目}/{類型}/{項目}/ 內固定包含：
+%    0. 標題與作者.tex  ：定義 \mytitle / \myauthor（頁首）與 \title / \author
+%    part0_all.tex      ：依序 \input 所有段落
+%    part1.tex, ...     ：內容段落
+%    figures/           ：圖片，引用時用從根目錄出發的完整路徑
+%
+%  【切換文件】只需改下方兩行的路徑。
+%  新增章節：複製 note/note_1/ 並改名為 note_2/，再改這裡的路徑。
+% ============================================================
+
+% ── 步驟一：標題與作者 ──────────────────────────────────
+\input{content/__SUBJECT__/note/note_1/0. 標題與作者}
+
+\begin{document}
+
+% ── 步驟二：文件內容 ────────────────────────────────────
+\input{content/__SUBJECT__/note/note_1/part0_all}
+
+\end{document}

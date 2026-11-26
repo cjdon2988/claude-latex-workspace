@@ -1,0 +1,62 @@
+#!/bin/bash
+# tex-build <群組> <專案> [--main 相對主檔路徑] [--save]
+# 例: tex-build 0_overleaf My_Paper
+# 原始碼: 02_projects/<群組>/<專案>/   PDF: 01_pdfs/<群組>/<專案>/   中間檔: BUILD_ROOT
+# 預設覆蓋同名舊 PDF;編譯失敗時不動舊 PDF;--save 把這次 PDF 另存一份到 0_saved/
+# 設定讀工作區根目錄的 .latex-config(setup 時產生):TEXBIN、BUILD_ROOT
+
+set -u
+L="$(cd "$(dirname "$0")/.." && pwd)"
+[ -f "$L/.latex-config" ] || { echo "找不到 $L/.latex-config,請先跑 setup(對 Claude 說「設定 LaTeX 工作區」)"; exit 2; }
+# shellcheck disable=SC1091
+. "$L/.latex-config"
+: "${TEXBIN:?.latex-config 缺 TEXBIN}" "${BUILD_ROOT:?.latex-config 缺 BUILD_ROOT}"
+
+group=""; project=""; main=""; save=0
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --main) main="$2"; shift 2 ;;
+    --save) save=1; shift ;;
+    *) if [ -z "$group" ]; then group="$1"; elif [ -z "$project" ]; then project="$1"; fi; shift ;;
+  esac
+done
+[ -n "$group" ] && [ -n "$project" ] || { echo "用法: tex-build <群組> <專案> [--main 相對路徑] [--save]"; exit 2; }
+
+PR="$L/02_projects/$group/$project"
+PDFDIR="$L/01_pdfs/$group/$project"
+AUX="$BUILD_ROOT/$group/$project"
+[ -d "$PR" ] || { echo "找不到專案: $PR"; exit 2; }
+
+# 主檔: --main > .texmain > 自動偵測(含 \documentclass,排除 fonts 內)
+if [ -z "$main" ] && [ -f "$PR/.texmain" ]; then main="$(head -n1 "$PR/.texmain")"; fi
+if [ -z "$main" ]; then
+  cands=()
+  while IFS= read -r f; do cands+=("${f#$PR/}"); done < <(grep -rlE '^[[:space:]]*\\documentclass' --include='*.tex' "$PR" 2>/dev/null | grep -v '/fonts/' | sort)
+  if [ "${#cands[@]}" -eq 1 ]; then main="${cands[0]}"
+  else echo "主檔不唯一或找不到,請用 --main 指定。候選:"; printf '  %s\n' "${cands[@]:-}"; exit 2; fi
+fi
+[ -f "$PR/$main" ] || { echo "找不到主檔: $PR/$main"; exit 2; }
+
+mdir="$(dirname "$main")"; mfile="$(basename "$main")"; name="${mfile%.tex}"
+mkdir -p "$AUX" "$PDFDIR"
+
+cd "$PR/$mdir" || exit 2
+env -i PATH="$TEXBIN:/usr/bin:/bin:/usr/sbin:/sbin" HOME="$HOME" LANG=en_US.UTF-8 TEXINPUTS=".:$PR:" \
+  latexmk -xelatex -interaction=nonstopmode -halt-on-error -outdir="$AUX" "$mfile" > "$AUX/latexmk.out" 2>&1
+rc=$?
+
+if [ $rc -ne 0 ] || [ ! -f "$AUX/$name.pdf" ]; then
+  echo "編譯失敗(舊 PDF 未動)。錯誤:"
+  grep -nE -A3 '^!' "$AUX/$name.log" 2>/dev/null | head -30
+  echo "完整紀錄: $AUX/$name.log"
+  rm -f "$AUX/$name.fdb_latexmk"  # 失敗後清掉 latexmk 狀態,避免補完套件後仍沿用舊的失敗紀錄
+  exit 1
+fi
+
+cp -f "$AUX/$name.pdf" "$PDFDIR/$name.pdf"
+echo "完成: $PDFDIR/$name.pdf"
+if [ $save -eq 1 ]; then
+  mkdir -p "$PDFDIR/0_saved"
+  s="$PDFDIR/0_saved/${name}_$(date +%Y-%m-%d_%H%M).pdf"
+  cp -f "$AUX/$name.pdf" "$s" && echo "另存: $s"
+fi

@@ -1,0 +1,339 @@
+%%% ============================================================
+%%%  package_and_settings.tex
+%%%  統一管理所有套件載入與全域設定
+%%%  【注意】請勿任意更動本檔，修改前請先備份
+%%% ============================================================
+
+
+% ─────────────────────────────────────────
+%  一、版面設定
+% ─────────────────────────────────────────
+% fancyhdr：自訂頁首（header）與頁尾（footer）的內容與格式
+\usepackage{fancyhdr}
+% geometry：設定版面尺寸與各邊邊距
+\usepackage{geometry}
+\geometry{headheight=2.54cm, bottom=2.54cm, right=3.54cm, left=3.54cm}
+% appendix：支援附錄（Appendix）環境，可自動調整附錄標題與編號
+\usepackage{appendix}
+% framed：提供 framed 環境，可在段落四周繪製簡單框線
+\usepackage{framed}
+
+
+% ─────────────────────────────────────────
+%  二、圖片設定
+% ─────────────────────────────────────────
+% graphicx：插入外部圖片（\includegraphics），支援縮放、旋轉等
+\usepackage{graphicx}
+% float：控制浮動體（圖、表）排版位置，支援 [H] 強制原地定位
+\usepackage{float}
+% subfigure：在單一 figure 環境中並排多張子圖（可各自編號與加標題）
+\usepackage{subfigure}
+% 圖片路徑：本模板不設全域 graphicspath，
+% 請在 \includegraphics 中使用從根目錄出發的完整相對路徑，例如：
+%   \includegraphics[width=0.8\textwidth]
+%     {content/__SUBJECT__/note/note_1/figures/my_diagram}
+% 這樣無論在哪個文件資料夾，路徑都不會出錯。
+
+
+% ─────────────────────────────────────────
+%  三、表格設定
+% ─────────────────────────────────────────
+% booktabs：提供專業表格用的水平線指令（\toprule、\midrule、\bottomrule）
+\usepackage{booktabs}
+% longtable：支援跨頁的長表格
+\usepackage{longtable}
+% dcolumn：讓表格欄位以小數點（或指定字元）對齊
+\usepackage{dcolumn}
+% multirow：支援表格儲存格跨列合併（\multirow{}）
+\usepackage{multirow}
+
+
+% ─────────────────────────────────────────
+%  四、TikZ / 繪圖設定
+% ─────────────────────────────────────────
+% tikz：向量繪圖核心套件，用於繪製幾何圖形、流程圖等
+\usepackage{tikz}
+\tikzset{>=latex}                      % 將所有箭頭預設為 LaTeX 樣式
+% pgfplots：繪製函數圖形與資料圖，以 tikz 為基礎
+\usepackage{pgfplots}
+% xcolor：定義與使用顏色，供 tikz 及其他環境共用
+\usepackage{xcolor}
+% contour：在文字四周產生暈光（halo）效果，常用於 tikz 圖形標籤
+\usepackage[outline]{contour}
+\contourlength{1.2pt}
+% 常用 tikz 函式庫
+\usetikzlibrary{positioning, calc}    % 相對定位與坐標計算
+\usetikzlibrary{backgrounds}          % 繪製背景圖層（inner frame sep 需要）
+\usetikzlibrary{arrows.meta, calc}    % 進階箭頭樣式
+\usetikzlibrary{patterns}             % 填充圖樣（斜線、點陣等）
+% pgfplots 函式庫：填充兩函數之間的區域（積分示意圖）
+\usepgfplotslibrary{fillbetween}
+\pgfplotsset{compat=1.12}             % 確保 TikZ 坐標與軸坐標互換的相容性
+
+% mathtools：用於公式排版，需在 tkz-euclide 之前載入
+\usepackage{mathtools}
+% tkz-euclide：歐幾里得幾何繪圖工具（標記點、角度等）
+\usepackage{tkz-euclide}
+
+% 自訂 tkzPointShowCoord 的箭頭與座標標籤樣式
+\makeatletter
+\tikzset{arrow coord style/.style={%
+        densely dashed,
+        \tkz@euc@linecolor,
+}}
+\tikzset{xcoord style/.style={%
+        \tkz@euc@labelcolor,
+        font=\normalsize, text height=1ex,
+        inner sep=0pt, outer sep=0pt,
+        fill=\tkz@fillcolor,
+        below=6pt
+}}
+\tikzset{ycoord style/.style={%
+        \tkz@euc@labelcolor,
+        font=\normalsize, text height=1ex,
+        inner sep=0pt, outer sep=0pt,
+        fill=\tkz@fillcolor,
+        left=6pt
+}}
+\makeatother
+
+
+% ─────────────────────────────────────────
+%  五、程式碼嵌入設定
+% ─────────────────────────────────────────
+% listings：在文件中插入原始碼區塊（支援語法高亮）
+% lstautogobble：自動去除 lstlisting 環境中的縮排空白
+\usepackage{listings, lstautogobble}
+\lstset{
+    backgroundcolor = \color{lightgray},    % 背景色（依賴第十區段定義的 lightgray）
+    basicstyle      = {\small\ttfamily},    % 預設字型（等寬小字）
+    breaklines      = true,                 % 超出行寬時自動換行
+    postbreak       = \raisebox{0ex}[0ex][0ex]{\ensuremath{\color{lightgray}\hookrightarrow\space}},
+    stringstyle     = \color{darkcyan},     % 字串顏色（依賴 darkcyan）
+    otherkeywords   = {0,1,2,3,4,5,6,7,8,9},
+    morekeywords    = {TRUE, FALSE},
+    deletekeywords  = {data, frame, length, as, character},
+    keywordstyle    = \color{blue},         % 關鍵字顏色
+    commentstyle    = \color{darkcyan},     % 註解顏色
+}
+
+
+% ─────────────────────────────────────────
+%  六、數學設定
+% ─────────────────────────────────────────
+% amsmath：核心數學環境（equation, align, gather 等）
+% mathtools：amsmath 的擴充，提供更多對齊與標記工具（已於第四區段載入）
+% amssymb：額外數學符號集（\mathbb, \mathfrak, \varnothing 等）
+% empheq：強調公式，可為 align 等環境加上框線或括號
+% amsthm：定理、引理、命題、定義等環境（\newtheorem）
+% cancel：在公式中畫刪除線（\cancel, \bcancel, \xcancel）
+% mleftright：修正 \left / \right 在某些環境下產生多餘間距的問題
+\usepackage{amsmath, amssymb, empheq, amsthm, cancel, mleftright}
+
+% 自訂數學運算子（顯示為直立羅馬體）
+\DeclareMathOperator{\erf}{erf}           % 誤差函數
+\DeclareMathOperator{\arcsec}{arcsec}     % 反正割
+\DeclareMathOperator{\arccot}{arccot}     % 反餘切
+\DeclareMathOperator{\arccsc}{arccsc}     % 反餘割
+\DeclareMathOperator{\supp}{supp}         % 支撐集
+\DeclareMathOperator{\diag}{diag}         % 對角矩陣
+\DeclareMathOperator*{\argmax}{arg\,max}  % argmax（下標置於正下方）
+\DeclareMathOperator*{\argmin}{arg\,min}  % argmin（下標置於正下方）
+
+\renewcommand\qedsymbol{$\blacksquare$}   % 將 QED 符號改為實心黑方塊 ■
+\allowdisplaybreaks                        % 允許 align 等環境的公式跨頁斷行
+
+
+% ─────────────────────────────────────────
+%  七、超連結設定
+% ─────────────────────────────────────────
+% hyperref：為目錄、\ref、\cite、URL 等加上可點擊的超連結
+%（此套件建議盡量放在所有套件的後段載入以避免衝突）
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks = true,
+    linkcolor  = blue,    % 內部連結（目錄項目、\ref 等）
+    filecolor  = magenta, % 本機檔案連結
+    urlcolor   = blue,    % 外部網址
+}
+\urlstyle{same}           % URL 使用與正文相同的字型（而非等寬字）
+
+
+% ─────────────────────────────────────────
+%  八、標題樣式設定
+% ─────────────────────────────────────────
+% titlesec：自訂 \section、\subsection、\subsubsection 的字型大小與格式
+\usepackage{titlesec}
+\titleformat{\section}      {\Large\CJKfamily{yuan}}     {\thesection}{1em}{}
+\titleformat{\subsection}   {\large\CJKfamily{yuan}}     {\thesubsection}{1em}{}
+\titleformat{\subsubsection}{\normalsize\CJKfamily{yuan}}{\arabic{section}.\arabic{subsection}.\arabic{subsubsection}\quad}{0em}{}
+
+
+% ─────────────────────────────────────────
+%  九、字型設定（XeLaTeX 專用）
+% ─────────────────────────────────────────
+% 字型、數學字族與 \kai \yuan \hei 指令由 main.tex 載入的 kelong-cjk.sty 提供（需以 XeLaTeX 編譯）
+
+
+
+% ─────────────────────────────────────────
+%  十、顏色定義
+% ─────────────────────────────────────────
+\definecolor{lightgray}    {RGB}{242, 242, 242}   % 淺灰，用於程式碼背景
+\definecolor{shadecolor}   {rgb}{0.94, 0.97, 1.0} % 淡藍，用於 framed 陰影底色
+\definecolor{sinopia}      {rgb}{0.8,  0.25, 0.04}% 深橙紅
+\definecolor{brightmaroon} {rgb}{0.76, 0.13, 0.28}% 亮栗紅
+\definecolor{deepcarmine}  {rgb}{0.66, 0.13, 0.24}% 深胭脂紅
+\definecolor{darkcyan}     {rgb}{0.0,  0.55, 0.55}% 深青，用於程式碼字串與註解
+
+
+% ─────────────────────────────────────────
+%  十一、頁首頁尾設定
+% ─────────────────────────────────────────
+% \mytitle 與 \myauthor 由各文件的「0. 標題與作者.tex」以 \def 定義
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\normalsize\CJKfamily{yuan}\shortstack[l]{\ifx\mychapter\empty\else\mychapter\\\fi\mytitle}}
+\rhead{\normalsize\CJKfamily{yuan}\shortstack[r]{\ifx\myinfo\empty\else\myinfo\\\fi\myauthor}}
+\cfoot{\footnotesize \thepage} % 頁尾置中：頁碼
+
+% 僅將 subsubsection 標題記錄至頁眉標記（\rightmark），
+% section / subsection 不顯示，避免頁首過長
+\makeatletter
+\renewcommand{\subsubsectionmark}[1]{\markright{#1}}
+\renewcommand{\sectionmark}[1]{}
+\renewcommand{\subsectionmark}[1]{}
+\makeatother
+
+
+% ─────────────────────────────────────────
+%  十二、自訂環境
+% ─────────────────────────────────────────
+% tcolorbox：高度可自訂的彩色方框套件，以下所有環境皆以此為基礎
+\usepackage{tcolorbox}
+\tcbuselibrary{skins}   % 載入 skins 函式庫，支援 enhanced 樣式與懸浮標題
+
+% ── whitebox ──────────────────────────────────────────────────
+% 無邊框、白色背景的空白方框，作為 narrowframed 的底層元件，
+% 也可直接使用以產生視覺隔離但不顯眼的區塊。
+%
+% 用法：
+%   \begin{whitebox}
+%     內容...
+%   \end{whitebox}
+% ──────────────────────────────────────────────────────────────
+\newtcolorbox{whitebox}{colframe=white}
+
+% ── narrowframed ──────────────────────────────────────────────
+% 縮排至頁寬 90%、水平置中的方框，底色為 shadecolor（淡藍），
+% 適合放置定義、定理、重要結論等需要視覺凸顯的內容。
+%
+% 用法：
+%   \begin{narrowframed}
+%     \textbf{定義 X.X} 定義名稱\\
+%     定義內容...
+%   \end{narrowframed}
+% ──────────────────────────────────────────────────────────────
+\newenvironment{narrowframed}
+    {\begin{center}\begin{minipage}{0.9\textwidth}\begin{whitebox}}
+    {\end{whitebox}\end{minipage}\end{center}}
+
+% ── examplebox ────────────────────────────────────────────────
+% 黑框題目方塊，左上角帶有灰色懸浮標籤（顯示題號與名稱），
+% 適合放置習題、例題或小考題目。
+%
+% 參數：
+%   #1 ： 題號，顯示為「習題 #1」
+%   #2 ： 題目名稱
+%
+% 用法：
+%   \begin{examplebox}{1.1}{題目名稱}
+%     題目敘述...
+%   \end{examplebox}
+% ──────────────────────────────────────────────────────────────
+\newtcolorbox{examplebox}[2]{
+    enhanced,
+    colback  = gray!5,
+    colframe = black,
+    boxrule  = 1.5pt,
+    arc      = 3mm,
+    width    = 0.9\textwidth,
+    center,
+    left=5mm, right=5mm, top=5mm, bottom=4.5mm,
+    attach boxed title to top left={yshift=-3mm, xshift=5mm},
+    boxed title style={
+        enhanced,
+        colback  = gray!60,
+        colframe = black,
+        boxrule  = 1.5pt,
+        arc      = 2mm,
+        left=3mm, right=3mm, top=1mm, bottom=1mm,
+    },
+    fonttitle = \bfseries,
+    title     = {習題 #1\;\; #2}
+}
+
+% ── solutionbox ───────────────────────────────────────────────
+% 解答環境，無框、無背景，前方自動產生「解答」粗體標題。
+% 通常緊接在 examplebox 之後使用。
+%
+% 用法：
+%   \begin{solutionbox}
+%     解題過程...
+%   \end{solutionbox}
+% ──────────────────────────────────────────────────────────────
+\newenvironment{solutionbox}{%
+    \par\vspace{0.5em}%
+    {\normalsize\textbf{解答}}\\[0.4em]%
+}{%
+    \par\vspace{1em}%
+}
+
+% ── analysisbox ───────────────────────────────────────────────
+% 題目分析環境，以 narrowframed 相同的淡藍底框呈現，
+% 框內頂端自動顯示「題目分析」粗體標題。
+% 通常接在 solutionbox 之後，補充解題思路、考點或觀念說明。
+%
+% 用法：
+%   \begin{solutionbox}
+%     解題過程...
+%   \end{solutionbox}
+%   \begin{analysisbox}
+%     這題考的是... 解題關鍵在於...
+%   \end{analysisbox}
+% ──────────────────────────────────────────────────────────────
+\newenvironment{analysisbox}{%
+    \par\vspace{0.5em}%
+    \begin{center}\begin{minipage}{0.9\textwidth}\begin{whitebox}%
+    \noindent{\normalsize\textbf{題目分析}}\\[0.4em]%
+}{%
+    \end{whitebox}\end{minipage}\end{center}%
+    \par\vspace{1em}%
+}
+
+
+% ─────────────────────────────────────────
+%  十三、雜項設定
+% ─────────────────────────────────────────
+% gensymb：提供通用符號，如 \degree（°）、\celsius（℃）、\micro（µ）
+\usepackage{gensymb}
+
+% parskip：以段落間距（垂直空白）取代首行縮排
+\usepackage{parskip}
+\parindent = 0pt
+
+% setspace：調整行距；\onehalfspacing 設為 1.5 倍行距
+\usepackage{setspace}
+\onehalfspacing
+
+% enumitem：自訂 itemize / enumerate 清單的符號、縮排與間距
+\usepackage{enumitem}
+
+% ragged2e：提供 \RaggedRight 等改進版對齊指令，斷行比原生版本更均勻
+\usepackage{ragged2e}
+
+% changepage：用於局部臨時調整版面寬度（如縮排區塊）
+\usepackage{changepage}
+
+% multicol：多欄排版，\begin{multicols}{2}...\end{multicols}
+\usepackage{multicol}

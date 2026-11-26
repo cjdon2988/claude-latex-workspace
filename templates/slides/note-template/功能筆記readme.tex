@@ -1,0 +1,196 @@
+% ╔══════════════════════════════════════════════════════════════╗
+% ║              功能筆記 README — Template_Slides               ║
+% ║  說明本模板的使用方式、資料夾結構與自訂環境                  ║
+% ║  本檔不會被編譯，僅供參考                                    ║
+% ╚══════════════════════════════════════════════════════════════╝
+
+
+% ────────────────────────────────────────────────────────────
+%  一、資料夾結構
+% ────────────────────────────────────────────────────────────
+%
+%  Template_Slides/
+%  ├── note-template/                ← 模板核心（請勿隨意修改）
+%  │   ├── main.tex                  ← 編譯入口，切換文件只改這裡
+%  │   ├── package_and_settings.tex  ← 套件、色彩主題、自訂環境
+%  │   ├── 功能筆記readme.tex        ← 本說明文件
+%  │   └── fonts/                    ← 字型檔
+%  │
+%  └── Content/                      ← 所有文件內容
+%      ├── course/                   ← 課堂講義
+%      │   ├── {科目1}/
+%      │   │   ├── note/note_1/      ← 上課投影片
+%      │   │   ├── hw/hw_1/          ← 作業講解
+%      │   │   ├── quiz/quiz_1/      ← 小考
+%      │   │   └── exam/midterm|final/
+%      │   └── {科目2}/         （結構同上）
+%      │
+%      ├── paper/                    ← 論文報告（讀書會、課堂）
+%      │   ├── {作者_年份1}/
+%      │   └── {作者_年份2}/
+%      │
+%      ├── thesis/                   ← 論文口試簡報
+%      │   └── {論文口試}/
+%      │
+%      └── meetings/                 ← 會議報告
+%          └── {對象}/       ← 按報告對象建子資料夾
+%              └── {YYYYMMDD}/         ← 日期格式：YYYYMMDD
+%
+%  ► 新增會議：在 meetings/{對象}/ 下建立新的日期資料夾，複製相同結構。
+%  ► 新增論文：在 paper/ 下建立 {作者_年份}/ 資料夾。
+%  ► 新增科目：在 course/ 下建立科目資料夾，結構與上方相同。
+
+
+% ────────────────────────────────────────────────────────────
+%  二、每個文件資料夾的內部結構
+% ────────────────────────────────────────────────────────────
+%
+%  {文件資料夾}/
+%  ├── 0. 標題與作者.tex  ← 定義 \title / \author / \date
+%  ├── part0.tex           ← 標題頁（\frame{\titlepage}）與目錄
+%  ├── part0_all.tex       ← 依序 \input 所有 part 檔的索引
+%  ├── part1.tex           ← 第一段投影片
+%  ├── part2.tex           ← 第二段（視需要新增）
+%  └── figures/            ← 本文件用到的圖片
+
+
+% ────────────────────────────────────────────────────────────
+%  三、色彩主題切換
+% ────────────────────────────────────────────────────────────
+%
+%  只需修改 package_and_settings.tex 第一個設定：
+%
+%    \newcommand{\slidetheme}{green}   % 可改為 blue 或 purple
+%
+%  三種色調說明：
+%    green  ── 深青綠標題列（預設，偏沉穩）
+%    blue   ── 深藍標題列（學術感強）
+%    purple ── 深紫標題列（個性鮮明）
+%
+%  改完重新編譯，標題列、頁尾、框線、連結顏色全部跟著換。
+%  文字顏色（黑）與警示色（紅）不受影響，確保可讀性。
+
+
+% ────────────────────────────────────────────────────────────
+%  四、如何切換文件（main.tex 的操作）
+% ────────────────────────────────────────────────────────────
+%
+%  只需修改 main.tex 中的兩行 \input：
+%
+%    步驟一：\input{Content/{類型}/{...}/0. 標題與作者}
+%    步驟二：\input{Content/{類型}/{...}/part0_all}
+%
+%  範例：
+%    切換到會議報告（{對象}，{日期}）：
+%      \input{Content/meetings/{對象}/{YYYYMMDD}/0. 標題與作者}
+%      \input{Content/meetings/{對象}/{YYYYMMDD}/part0_all}
+%
+%    切換到 {作者 et al.}（{年份}）論文報告：
+%      \input{Content/paper/{作者_年份1}/0. 標題與作者}
+%      \input{Content/paper/{作者_年份1}/part0_all}
+%
+%    切換到碩士論文口試：
+%      \input{Content/thesis/{論文口試}/0. 標題與作者}
+%      \input{Content/thesis/{論文口試}/part0_all}
+
+
+% ────────────────────────────────────────────────────────────
+%  五、圖片管理
+% ────────────────────────────────────────────────────────────
+%
+%  圖片放在各文件的 figures/ 子資料夾：
+%    Content/meetings/{對象}/{YYYYMMDD}/figures/my_figure.png
+%
+%  引用時使用從根目錄出發的完整相對路徑：
+%
+%    \begin{frame}{含圖投影片}
+%      \centering
+%      \includegraphics[width=0.7\textwidth]
+%        {Content/meetings/{對象}/{YYYYMMDD}/figures/my_figure}
+%    \end{frame}
+%
+%  注意：不要只寫檔名，Overleaf 從 main.tex 所在的資料夾出發找路徑。
+
+
+% ────────────────────────────────────────────────────────────
+%  六、自訂環境使用說明
+% ────────────────────────────────────────────────────────────
+
+% ── problembox（題目框）──────────────────────────────────────
+%
+%  \begin{problembox}{題號}{題目名稱}
+%    題目內容...
+%  \end{problembox}
+%
+%  ► 若題目很長，需要跨多張投影片：
+%    \begin{frame}[allowframebreaks]{標題}
+%      \begin{problembox}{1.1}{題目名稱}
+%        非常長的題目內容...
+%      \end{problembox}
+%    \end{frame}
+
+% ── solutionbox（解答框）────────────────────────────────────
+%
+%  \begin{solutionbox}
+%    解題過程...
+%  \end{solutionbox}
+%
+%  ► problembox + solutionbox 的標準搭配：
+%    \begin{frame}[allowframebreaks]{題目標題}
+%      \begin{problembox}{1.1}{OLS 估計}
+%        給定模型 $y = X\beta + \epsilon$，推導 OLS 估計量...
+%      \end{problembox}
+%      \begin{solutionbox}
+%        最小化 $\|y - X\beta\|^2$，對 $\beta$ 偏微分得...
+%        \[\hat\beta = (X^\top X)^{-1}X^\top y\]
+%      \end{solutionbox}
+%    \end{frame}
+
+% ── highlightbox（強調框，可自訂標題）──────────────────────
+%
+%  \begin{highlightbox}{框標題}
+%    重要定理或結論...
+%  \end{highlightbox}
+
+% ── Beamer 內建 block 環境（顏色自動跟隨主題）──────────────
+%
+%  \begin{block}{一般說明框}
+%    內容...
+%  \end{block}
+%
+%  \begin{exampleblock}{範例框}
+%    範例內容...
+%  \end{exampleblock}
+%
+%  \begin{alertblock}{警示框}
+%    重要警告...
+%  \end{alertblock}
+
+% ── \alert{} 行內標記（變成警示色）─────────────────────────
+%
+%  \alert{這段文字會變成紅色}
+
+% ── 其他排版工具 ──────────────────────────────────────────
+%
+%  多欄排版：
+%    \begin{columns}
+%      \begin{column}{0.48\textwidth}
+%        左欄內容...
+%      \end{column}
+%      \begin{column}{0.48\textwidth}
+%        右欄內容...
+%      \end{column}
+%    \end{columns}
+%
+%  表格：推薦使用 booktabs 樣式
+%    \begin{tabular}{lcc}
+%      \toprule
+%      欄位 A & 欄位 B & 欄位 C \\
+%      \midrule
+%      資料 & 資料 & 資料 \\
+%      \bottomrule
+%    \end{tabular}
+%
+%  字型指令：
+%    \kai{楷體}   \ming{明體}   \hei{黑體}
+

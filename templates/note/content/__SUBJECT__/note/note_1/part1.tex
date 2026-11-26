@@ -1,0 +1,87 @@
+% ──────────────────────────────────────────────────
+%  part1.tex：內容範例（示範版面樣式，可整段替換）
+% ──────────────────────────────────────────────────
+\section{段落標題}
+\subsection{小節標題}
+
+\begin{narrowframed}
+\textbf{定義 1.1}\textbf{ 名稱}\\
+內容文字，數學式如 $x^2 + y^2 = r^2$。
+\end{narrowframed}
+
+\begin{itemize}
+    \item 項目一
+    \item 項目二
+\end{itemize}
+
+\begin{whitebox}
+無框區塊，用來隔開段落內容。
+\end{whitebox}
+
+\subsection{表格範例}
+
+\begin{table}[H]
+    \centering
+    \caption{一般表格}
+    \vspace{8pt}
+    \begin{tabular}{lcc}
+        \toprule
+        欄位 & 數值 A & 數值 B \\
+        \midrule
+        項目一 & 1.00 & 2.00 \\
+        項目二 & 3.00 & 4.00 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \caption{寬表格，以 resizebox 縮放至版寬}
+    \vspace{8pt}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{lcccccc}
+        \toprule
+        名稱 & 第一欄位 & 第二欄位 & 第三欄位 & 第四欄位 & 第五欄位 & 第六欄位 \\
+        \midrule
+        很長的項目名稱 & 1.000 & 2.000 & 3.000 & 4.000 & 5.000 & 6.000 \\
+        \bottomrule
+    \end{tabular}%
+    }
+\end{table}
+
+\subsection{習題範例}
+
+\begin{examplebox}{1}{題目名稱}
+題目敘述。
+\end{examplebox}
+
+\begin{solutionbox}
+解題過程。
+\end{solutionbox}
+
+\begin{analysisbox}
+解題思路與考點。
+\end{analysisbox}
+
+\subsection{程式碼與多欄範例}
+
+\begin{lstlisting}[language=R]
+lm_model <- lm(y ~ x, data = df)
+summary(lm_model)
+\end{lstlisting}
+
+\noindent
+\begin{minipage}[t]{0.48\textwidth}
+左欄內容。
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.48\textwidth}
+右欄內容。
+\end{minipage}
+
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.7\textwidth]
+%         {content/__SUBJECT__/note/note_1/figures/檔名}
+%     \caption{圖片標題}
+% \end{figure}
